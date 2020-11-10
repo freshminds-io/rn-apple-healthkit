@@ -1,10 +1,3 @@
-//
-//  RCTAppleHealthKit+Methods_Mindfulness.m
-//  RCTAppleHealthKit
-//
-//
-
-
 #import "RCTAppleHealthKit+Methods_Mindfulness.h"
 #import "RCTAppleHealthKit+Queries.h"
 #import "RCTAppleHealthKit+Utils.h"

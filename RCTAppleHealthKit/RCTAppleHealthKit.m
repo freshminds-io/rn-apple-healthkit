@@ -1,12 +1,3 @@
-//
-//  RCTAppleHealthKit.m
-//  RCTAppleHealthKit
-//
-//  Created by Greg Wilson on 2016-06-26.
-//  This source code is licensed under the MIT-style license found in the
-//  LICENSE file in the root directory of this source tree.
-//
-
 #import "RCTAppleHealthKit.h"
 #import "RCTAppleHealthKit+TypesAndPermissions.h"
 
@@ -19,9 +10,7 @@
 #import "RCTAppleHealthKit+Methods_Results.h"
 #import "RCTAppleHealthKit+Methods_Sleep.h"
 #import "RCTAppleHealthKit+Methods_Mindfulness.h"
-
-#import <React/RCTBridgeModule.h>
-#import <React/RCTEventDispatcher.h>
+#import "RCTAppleHealthKit+Methods_Workout.h"
 
 @implementation RCTAppleHealthKit
 
@@ -260,6 +249,16 @@ RCT_EXPORT_METHOD(getMindfulSession:(NSDictionary *)input callback:(RCTResponseS
     [self mindfulness_getMindfulSession:input callback:callback];
 }
 
+RCT_EXPORT_METHOD(saveWorkout:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback)
+{
+    [self workout_save:input callback:callback];
+}
+
+RCT_EXPORT_METHOD(canWriteWorkout:(RCTResponseSenderBlock)callback)
+{
+    [self workout_can_write:callback];
+}
+
 - (void)isHealthKitAvailable:(RCTResponseSenderBlock)callback
 {
     BOOL isAvailable = NO;
@@ -268,7 +267,6 @@ RCT_EXPORT_METHOD(getMindfulSession:(NSDictionary *)input callback:(RCTResponseS
     }
     callback(@[[NSNull null], @(isAvailable)]);
 }
-
 
 - (void)initializeHealthKit:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback
 {

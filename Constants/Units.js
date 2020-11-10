@@ -3,7 +3,7 @@
  * https://github.com/terrillo/rn-apple-healthkit#units
  * @type {Object}
  */
-export const Units = {
+export default {
   bpm: "bpm",
   calorie: "calorie",
   celsius: "celsius",

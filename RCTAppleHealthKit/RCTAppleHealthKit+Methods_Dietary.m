@@ -1,11 +1,3 @@
-//
-//  RCTAppleHealthKit+Methods_Dietary.m
-//  RCTAppleHealthKit
-//
-//  Created by Greg Wilson on 2016-06-26.
-//  Copyright © 2016 Greg Wilson. All rights reserved.
-//
-
 #import "RCTAppleHealthKit+Methods_Dietary.h"
 #import "RCTAppleHealthKit+Queries.h"
 #import "RCTAppleHealthKit+Utils.h"
@@ -57,13 +49,13 @@
     double vitaminEValue = [RCTAppleHealthKit doubleFromOptions:input key:@"vitaminE" withDefault:(double)0];
     double vitaminKValue = [RCTAppleHealthKit doubleFromOptions:input key:@"vitaminK" withDefault:(double)0];
     double zincValue = [RCTAppleHealthKit doubleFromOptions:input key:@"zinc" withDefault:(double)0];
-    
+
     // Metadata including some new food-related keys //
     NSDictionary *metadata = @{
             HKMetadataKeyFoodType:foodNameValue,
             //@"HKFoodBrandName":@"FoodBrandName", // Restaurant name or packaged food brand name
             //@"HKFoodTypeUUID":@"FoodTypeUUID", // Identifier for this food
-            @"HKFoodMeal":mealNameValue//, // Breakfast, Lunch, Dinner, or Snacks 
+            @"HKFoodMeal":mealNameValue//, // Breakfast, Lunch, Dinner, or Snacks
             //@"HKFoodImageName":@"FoodImageName" // Food icon name
     };
 
@@ -348,7 +340,7 @@
                                                                     startDate:timeFoodWasConsumed
                                                                         endDate:timeFoodWasConsumed
                                                                     metadata:metadata];
-    
+
         [mySet addObject:vitaminE];
     }
     if (vitaminKValue > 0){

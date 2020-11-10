@@ -1,12 +1,3 @@
-//
-//  RCTAppleHealthKit+Methods_Fitness.m
-//  RCTAppleHealthKit
-//
-//  Created by Greg Wilson on 2016-06-26.
-//  This source code is licensed under the MIT-style license found in the
-//  LICENSE file in the root directory of this source tree.
-//
-
 #import "RCTAppleHealthKit+Methods_Fitness.h"
 #import "RCTAppleHealthKit+Queries.h"
 #import "RCTAppleHealthKit+Utils.h"
@@ -56,9 +47,9 @@
     NSString *type = [RCTAppleHealthKit stringFromOptions:input key:@"type" withDefault:@"Walking"];
     NSDate *startDate = [RCTAppleHealthKit dateFromOptions:input key:@"startDate" withDefault:[NSDate date]];
     NSDate *endDate = [RCTAppleHealthKit dateFromOptions:input key:@"endDate" withDefault:[NSDate date]];
-    
+
     NSPredicate *predicate = [HKQuery predicateForSamplesWithStartDate:startDate endDate:endDate options:HKQueryOptionStrictStartDate];
-    
+
     HKSampleType *samplesType = [RCTAppleHealthKit hkQuantityTypeFromString:type];
     if ([type isEqual:@"Running"] || [type isEqual:@"Cycling"]) {
         unit = [HKUnit mileUnit];
@@ -85,12 +76,12 @@
 {
     HKUnit *unit = [RCTAppleHealthKit hkUnitFromOptions:input key:@"unit" withDefault:[HKUnit countUnit]];
     NSString *type = [RCTAppleHealthKit stringFromOptions:input key:@"type" withDefault:@"Walking"];
-    
+
     HKSampleType *samplesType = [RCTAppleHealthKit hkQuantityTypeFromString:type];
     if ([type isEqual:@"Running"] || [type isEqual:@"Cycling"]) {
         unit = [HKUnit mileUnit];
     }
-    
+
     [self setObserverForType:samplesType unit:unit];
 }
 
@@ -102,9 +93,9 @@
     BOOL ascending = [RCTAppleHealthKit boolFromOptions:input key:@"ascending" withDefault:false];
     NSDate *startDate = [RCTAppleHealthKit dateFromOptions:input key:@"startDate" withDefault:nil];
     NSDate *endDate = [RCTAppleHealthKit dateFromOptions:input key:@"endDate" withDefault:[NSDate date]];
-    NSUInteger period = [RCTAppleHealthKit uintFromOptions:input key:@"period" withDefault:60]; 
+    NSUInteger period = [RCTAppleHealthKit uintFromOptions:input key:@"period" withDefault:60];
     BOOL includeManuallyAdded = [RCTAppleHealthKit boolFromOptions:input key:@"includeManuallyAdded" withDefault:false];
-    
+
     if(startDate == nil){
         callback(@[RCTMakeError(@"startDate is required in options", nil, nil)]);
         return;
@@ -223,9 +214,9 @@
         callback(@[RCTMakeError(@"startDate is required in options", nil, nil)]);
         return;
     }
-    
+
     HKQuantityType *quantityType = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierDistanceWalkingRunning];
-    
+
     [self fetchCumulativeSumStatisticsCollection:quantityType
                                             unit:unit
                                             period:period
@@ -257,9 +248,9 @@
         callback(@[RCTMakeError(@"startDate is required in options", nil, nil)]);
         return;
     }
-    
+
     HKQuantityType *quantityType = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierDistanceSwimming];
-    
+
     [self fetchCumulativeSumStatisticsCollection:quantityType
                                             unit:unit
                                             period:period
@@ -313,9 +304,9 @@
         callback(@[RCTMakeError(@"startDate is required in options", nil, nil)]);
         return;
     }
-    
+
     HKQuantityType *quantityType = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierDistanceCycling];
-    
+
     [self fetchCumulativeSumStatisticsCollection:quantityType
                                             unit:unit
                                             period:period
@@ -367,9 +358,9 @@
         callback(@[RCTMakeError(@"startDate is required in options", nil, nil)]);
         return;
     }
-    
+
     HKQuantityType *quantityType = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierFlightsClimbed];
-    
+
     [self fetchCumulativeSumStatisticsCollection:quantityType
                                             unit:unit
                                        startDate:startDate

@@ -1,21 +1,12 @@
-//
-//  RCTAppleHealthKit+TypesAndPermissions.m
-//  RCTAppleHealthKit
-//
-//  Created by Greg Wilson on 2016-06-26.
-//  This source code is licensed under the MIT-style license found in the
-//  LICENSE file in the root directory of this source tree.
-//
-
 #import "RCTAppleHealthKit+TypesAndPermissions.h"
 
 @implementation RCTAppleHealthKit (TypesAndPermissions)
 
+#define WORKOUT_DICTIONARY @{"key" : "value"\"key2" : "value2"}
+
 #pragma mark - HealthKit Permissions
 
 - (nullable HKObjectType *)getReadPermFromText:(nonnull NSString*)key {
-    UIDevice *deviceInfo = [UIDevice currentDevice];
-    float systemVersion = deviceInfo.systemVersion.floatValue;
 
     // Characteristic Identifiers
     if ([@"DateOfBirth" isEqualToString: key]) {
@@ -27,7 +18,7 @@
     }else if ([@"BiologicalSex" isEqualToString: key]) {
         return [HKObjectType characteristicTypeForIdentifier:HKCharacteristicTypeIdentifierBiologicalSex];
     }
-    
+
     // Body Measurements
     if ([@"BodyMass" isEqualToString: key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyMass];
@@ -38,7 +29,7 @@
     }else if ([@"LeanBodyMass" isEqualToString: key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierLeanBodyMass];
     }
-    
+
     // Fitness Identifiers
     if ([@"Steps" isEqualToString: key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
@@ -57,16 +48,12 @@
     }else if ([@"NikeFuel" isEqualToString: key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierNikeFuel];
     }
-    
-//    if ([@"AppleExerciseTime" isEqualToString: key]) {
-//        return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierAppleExerciseTime];
-//    }
-    
+
     // Nutrition Identifiers
     if ([@"DietaryEnergy" isEqualToString: key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryEnergyConsumed];
     }
-    
+
     // Vital Signs Identifiers
     if ([@"HeartRate" isEqualToString: key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate];
@@ -79,30 +66,33 @@
     }else if ([@"RespiratoryRate" isEqualToString: key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierRespiratoryRate];
     }
-    
+
     // Results Identifiers
     if ([@"BloodGlucose" isEqualToString: key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierBloodGlucose];
     }
-    
+
     // Sleep
     if ([@"SleepAnalysis" isEqualToString: key]) {
         return [HKObjectType categoryTypeForIdentifier:HKCategoryTypeIdentifierSleepAnalysis];
     }
-    
-    // workouts
-    if ([@"MindfulSession" isEqualToString: key] && systemVersion >= 10.0) {
-        return [HKObjectType categoryTypeForIdentifier:HKCategoryTypeIdentifierMindfulSession];
-    } else if ([@"MindfulSession" isEqualToString: key]){
+
+    // Mindfulness
+    if (@available(iOS 10, *)) {
+        if ([@"MindfulSession" isEqualToString: key]) {
+            return [HKObjectType categoryTypeForIdentifier:HKCategoryTypeIdentifierMindfulSession];
+        }
+    }
+
+    // Workout
+    if ([@"Workout" isEqualToString: key]){
         return [HKObjectType workoutType];
     }
-    
+
     return nil;
 }
 
 - (nullable HKObjectType *)getWritePermFromText:(nonnull NSString*) key {
-
-    
     // Body Measurements
     if([@"Height" isEqualToString:key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeight];
@@ -117,7 +107,7 @@
     } else if([@"LeanBodyMass" isEqualToString:key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierLeanBodyMass];
     }
-    
+
     // Fitness Identifiers
     if([@"Steps" isEqualToString:key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
@@ -134,7 +124,7 @@
     } else if([@"FlightsClimbed" isEqualToString:key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierFlightsClimbed];
     }
-    
+
     // Nutrition Identifiers
     if([@"Biotin" isEqualToString:key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryBiotin];
@@ -213,23 +203,32 @@
     } else if([@"Water" isEqualToString:key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryWater];
     }
-    
+
     // Sleep
     if([@"SleepAnalysis" isEqualToString:key]) {
         return [HKObjectType categoryTypeForIdentifier:HKCategoryTypeIdentifierSleepAnalysis];
     }
-    
+
+
     // Mindfulness
-    if([@"MindfulSession" isEqualToString:key]) {
-        return [HKObjectType categoryTypeForIdentifier:HKCategoryTypeIdentifierMindfulSession];
+    if (@available(iOS 10, *)) {
+        if ([@"MindfulSession" isEqualToString: key]) {
+            return [HKObjectType categoryTypeForIdentifier:HKCategoryTypeIdentifierMindfulSession];
+        }
     }
+
+    // Workout
+    if ([@"Workout" isEqualToString: key]){
+        return [HKObjectType workoutType];
+    }
+
     return nil;
 }
 
 // Returns HealthKit read permissions from options array
 - (NSSet *)getReadPermsFromOptions:(NSArray *)options {
     NSMutableSet *readPermSet = [NSMutableSet setWithCapacity:1];
-    
+
     for(int i=0; i<[options count]; i++) {
         NSString *optionKey = options[i];
         if(optionKey != nil){
@@ -246,7 +245,7 @@
 // Returns HealthKit write permissions from options array
 - (NSSet *)getWritePermsFromOptions:(NSArray *)options {
     NSMutableSet *writePermSet = [NSMutableSet setWithCapacity:1];
-    
+
     for(int i=0; i<[options count]; i++) {
         NSString *optionKey = options[i];
         if(optionKey != nil){
@@ -272,6 +271,83 @@
         case HKAuthorizationStatusSharingAuthorized:
             return @"SharingAuthorized";
     }
+}
+
++ (NSDictionary *)getStringToWorkoutActivityTypeDictionary {
+    return @{
+        @"AmericanFootball": @(HKWorkoutActivityTypeAmericanFootball),
+        @"Archery": @(HKWorkoutActivityTypeArchery),
+        @"AustralianFootball": @(HKWorkoutActivityTypeAustralianFootball),
+        @"Badminton": @(HKWorkoutActivityTypeBadminton),
+        @"Baseball": @(HKWorkoutActivityTypeBaseball),
+        @"Basketball": @(HKWorkoutActivityTypeBasketball),
+        @"Bowling": @(HKWorkoutActivityTypeBowling),
+        @"Boxing": @(HKWorkoutActivityTypeBoxing) ,
+        @"Climbing": @(HKWorkoutActivityTypeClimbing),
+        @"Cricket": @(HKWorkoutActivityTypeCricket),
+        @"CrossTraining": @(HKWorkoutActivityTypeCrossTraining) ,
+        @"Curling": @(HKWorkoutActivityTypeCurling),
+        @"Cycling": @(HKWorkoutActivityTypeCycling),
+        @"Dance": @(HKWorkoutActivityTypeDance),
+        @"Elliptical": @(HKWorkoutActivityTypeElliptical),
+        @"EquestrianSports": @(HKWorkoutActivityTypeEquestrianSports) ,
+        @"Fencing": @(HKWorkoutActivityTypeFencing),
+        @"Fishing": @(HKWorkoutActivityTypeFishing),
+        @"FunctionalStrengthTraining": @(HKWorkoutActivityTypeFunctionalStrengthTraining) ,
+        @"Golf": @(HKWorkoutActivityTypeGolf),
+        @"Gymnastics": @(HKWorkoutActivityTypeGymnastics),
+        @"Handball": @(HKWorkoutActivityTypeHandball),
+        @"Hiking": @(HKWorkoutActivityTypeHiking),
+        @"Hockey": @(HKWorkoutActivityTypeHockey) ,
+        @"Hunting": @(HKWorkoutActivityTypeHunting),
+        @"Lacrosse": @(HKWorkoutActivityTypeLacrosse),
+        @"MartialArts": @(HKWorkoutActivityTypeMartialArts),
+        @"MindAndBody": @(HKWorkoutActivityTypeMindAndBody) ,
+        @"PaddleSports": @(HKWorkoutActivityTypePaddleSports) ,
+        @"Play": @(HKWorkoutActivityTypePlay) ,
+        @"PreparationAndRecovery": @(HKWorkoutActivityTypePreparationAndRecovery) ,
+        @"Racquetball": @(HKWorkoutActivityTypeRacquetball),
+        @"Rowing": @(HKWorkoutActivityTypeRowing),
+        @"Rugby": @(HKWorkoutActivityTypeRugby),
+        @"Running": @(HKWorkoutActivityTypeRunning),
+        @"Sailing": @(HKWorkoutActivityTypeSailing),
+        @"SkatingSports": @(HKWorkoutActivityTypeSkatingSports) ,
+        @"SnowSports": @(HKWorkoutActivityTypeSnowSports) ,
+        @"Soccer": @(HKWorkoutActivityTypeSoccer),
+        @"Softball": @(HKWorkoutActivityTypeSoftball),
+        @"Squash": @(HKWorkoutActivityTypeSquash),
+        @"StairClimbing": @(HKWorkoutActivityTypeStairClimbing) ,
+        @"SurfingSports": @(HKWorkoutActivityTypeSurfingSports) ,
+        @"Swimming": @(HKWorkoutActivityTypeSwimming),
+        @"TableTennis": @(HKWorkoutActivityTypeTableTennis),
+        @"Tennis": @(HKWorkoutActivityTypeTennis),
+        @"TrackAndField": @(HKWorkoutActivityTypeTrackAndField) ,
+        @"TraditionalStrengthTraining": @(HKWorkoutActivityTypeTraditionalStrengthTraining) ,
+        @"Volleyball": @(HKWorkoutActivityTypeVolleyball),
+        @"Walking": @(HKWorkoutActivityTypeWalking),
+        @"WaterFitness": @(HKWorkoutActivityTypeWaterFitness),
+        @"WaterPolo": @(HKWorkoutActivityTypeWaterPolo),
+        @"WaterSports": @(HKWorkoutActivityTypeWaterSports) ,
+        @"Wrestling": @(HKWorkoutActivityTypeWrestling),
+        @"Yoga": @(HKWorkoutActivityTypeYoga)  ,
+        @"Barre": @(HKWorkoutActivityTypeBarre),
+        @"CoreTraining": @(HKWorkoutActivityTypeCoreTraining),
+        @"CrossCountrySkiing": @(HKWorkoutActivityTypeCrossCountrySkiing),
+        @"DownhillSkiing": @(HKWorkoutActivityTypeDownhillSkiing),
+        @"Flexibility": @(HKWorkoutActivityTypeFlexibility),
+        @"HighIntensityIntervalTraining": @(HKWorkoutActivityTypeHighIntensityIntervalTraining),
+        @"JumpRope": @(HKWorkoutActivityTypeJumpRope),
+        @"Kickboxing": @(HKWorkoutActivityTypeKickboxing),
+        @"Pilates": @(HKWorkoutActivityTypePilates),
+        @"Snowboarding": @(HKWorkoutActivityTypeSnowboarding),
+        @"Stairs": @(HKWorkoutActivityTypeStairs),
+        @"StepTraining": @(HKWorkoutActivityTypeStepTraining),
+        @"WheelchairWalkPace": @(HKWorkoutActivityTypeWheelchairWalkPace),
+        @"WheelchairRunPace": @(HKWorkoutActivityTypeWheelchairRunPace),
+        @"TaiChi": @(HKWorkoutActivityTypeTaiChi),
+        @"MixedCardio": @(HKWorkoutActivityTypeMixedCardio),
+        @"HandCycling": @(HKWorkoutActivityTypeHandCycling)
+    };
 }
 
 @end

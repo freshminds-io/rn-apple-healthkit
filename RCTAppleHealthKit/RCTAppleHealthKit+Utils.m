@@ -1,16 +1,7 @@
-//
-//  RCTAppleHealthKit+Utils.m
-//  RCTAppleHealthKit
-//
-//  Created by Greg Wilson on 2016-06-26.
-//  This source code is licensed under the MIT-style license found in the
-//  LICENSE file in the root directory of this source tree.
-//
-
 #import "RCTAppleHealthKit+Utils.h"
+#import "RCTAppleHealthKit+TypesAndPermissions.h"
 
 @implementation RCTAppleHealthKit (Utils)
-
 
 #pragma mark - Utilities
 
@@ -279,6 +270,27 @@
     return [num boolValue];
 }
 
++ (HKWorkoutActivityType)hkWorkoutActivityTypeFromOptions: (NSDictionary *)options key: (NSString *)key withDefault: (HKWorkoutActivityType)defaultValue {
+    NSDictionary * stringToWorkoutActivityType = [RCTAppleHealthKit getStringToWorkoutActivityTypeDictionary];
+    HKWorkoutActivityType activityType = defaultValue;
+
+    if([options objectForKey:key] && [stringToWorkoutActivityType objectForKey:[options valueForKey:key]]) {
+        NSString * activityString = [options valueForKey:key];
+        activityType = [(NSNumber *)[stringToWorkoutActivityType objectForKey:activityString] integerValue];
+    }
+    return activityType;
+}
+
++ (HKQuantity *)hkQuantityFromOptions:(NSDictionary *)options valueKey: (NSString *)valueKey unitKey: (NSString *)unitKey {
+    const int outOfBoundValue = -1;
+    double value = [RCTAppleHealthKit doubleFromOptions:options key:valueKey withDefault:outOfBoundValue];
+    HKUnit *unit = [RCTAppleHealthKit hkUnitFromOptions:options key:unitKey withDefault:nil];
+
+    if(unit != nil && value >= 0) {
+        return [HKQuantity quantityWithUnit:unit doubleValue:value];
+    }
+    return nil;
+}
 
 + (NSMutableArray *)reverseNSMutableArray:(NSMutableArray *)array {
     if ([array count] <= 1)

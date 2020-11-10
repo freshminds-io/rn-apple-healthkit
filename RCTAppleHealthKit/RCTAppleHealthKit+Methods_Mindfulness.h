@@ -1,9 +1,3 @@
-//
-//  RCTAppleHealthKit+Methods_Mindfulness.h
-//  RCTAppleHealthKit
-//
-//
-
 #import "RCTAppleHealthKit.h"
 
 @interface RCTAppleHealthKit (Methods_Mindfulness)

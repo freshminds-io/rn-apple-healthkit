@@ -1,16 +1,14 @@
-'use strict'
+const { AppleHealthKit } = require('react-native').NativeModules;
 
-let { AppleHealthKit } = require('react-native').NativeModules;
+import { Activities, Permissions, Units } from './Constants';
 
-import { Permissions } from './Constants/Permissions'
-import { Units } from './Constants/Units'
-
-let HealthKit = Object.assign({}, AppleHealthKit, {
-	Constants: {
-		Permissions: Permissions,
-		Units: Units,
-	}
+const HealthKit = Object.assign({}, AppleHealthKit, {
+  Constants: {
+    Permissions,
+    Units,
+    Activities,
+  },
 });
 
-export default HealthKit
+export default HealthKit;
 module.exports = HealthKit;

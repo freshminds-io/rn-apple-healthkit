@@ -1,13 +1,3 @@
-//
-//  RCTAppleHealthKit+Methods_Sleep.m
-//  RCTAppleHealthKit
-//
-//  Created by Greg Wilson on 2016-11-06.
-//  This source code is licensed under the MIT-style license found in the
-//  LICENSE file in the root directory of this source tree.
-//
-
-
 #import "RCTAppleHealthKit+Methods_Sleep.h"
 #import "RCTAppleHealthKit+Queries.h"
 #import "RCTAppleHealthKit+Utils.h"
@@ -24,11 +14,11 @@
         callback(@[RCTMakeError(@"startDate is required in options", nil, nil)]);
         return;
     }
-    
+
     NSPredicate *predicate = [RCTAppleHealthKit predicateForSamplesBetweenDates:startDate endDate:endDate];
     NSUInteger limit = [RCTAppleHealthKit uintFromOptions:input key:@"limit" withDefault:HKObjectQueryNoLimit];
-    
-    
+
+
     [self fetchSleepCategorySamplesForPredicate:predicate
                                           limit:limit
                                      completion:^(NSArray *results, NSError *error) {
@@ -40,7 +30,7 @@
                                              return;
                                          }
                                      }];
-    
+
 }
 
 
