@@ -338,6 +338,8 @@
             return @"Curling";
         case HKWorkoutActivityTypeCycling:
             return @"Cycling";
+        case HKWorkoutActivityTypeDiscSports:
+            return @"DiscSports";
         case HKWorkoutActivityTypeElliptical:
             return @"Elliptical";
         case HKWorkoutActivityTypeEquestrianSports:
