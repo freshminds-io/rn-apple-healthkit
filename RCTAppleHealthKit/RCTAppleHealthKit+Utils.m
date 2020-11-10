@@ -324,8 +324,12 @@
             return @"Bowling";
         case HKWorkoutActivityTypeBoxing:
             return @"Boxing";
+        case HKWorkoutActivityTypeCardioDance:
+            return @"CardioDance";
         case HKWorkoutActivityTypeClimbing:
             return @"Climbing";
+        case HKWorkoutActivityTypeCooldown:
+            return @"Cooldown";
         case HKWorkoutActivityTypeCricket:
             return @"Cricket";
         case HKWorkoutActivityTypeCrossTraining:
@@ -334,10 +338,6 @@
             return @"Curling";
         case HKWorkoutActivityTypeCycling:
             return @"Cycling";
-        case HKWorkoutActivityTypeDance:
-            return @"Dance";
-        case HKWorkoutActivityTypeDanceInspiredTraining:
-            return @"DanceInspiredTraining";
         case HKWorkoutActivityTypeElliptical:
             return @"Elliptical";
         case HKWorkoutActivityTypeEquestrianSports:
@@ -346,6 +346,8 @@
             return @"Fencing";
         case HKWorkoutActivityTypeFishing:
             return @"Fishing";
+        case HKWorkoutActivityTypeFitnessGaming:
+            return @"FitnessGaming";
         case HKWorkoutActivityTypeFunctionalStrengthTraining:
             return @"FunctionalStrengthTraining";
         case HKWorkoutActivityTypeGolf:
@@ -366,12 +368,12 @@
             return @"MartialArts";
         case HKWorkoutActivityTypeMindAndBody:
             return @"MindAndBody";
-        case HKWorkoutActivityTypeMixedMetabolicCardioTraining:
-            return @"MixedMetabolicCardioTraining";
         case HKWorkoutActivityTypePaddleSports:
             return @"PaddleSports";
         case HKWorkoutActivityTypePlay:
             return @"Play";
+        case HKWorkoutActivityTypePickleball:
+            return @"Pickleball";
         case HKWorkoutActivityTypePreparationAndRecovery:
             return @"PreparationAndRecovery";
         case HKWorkoutActivityTypeRacquetball:
@@ -390,6 +392,8 @@
             return @"SnowSports";
         case HKWorkoutActivityTypeSoccer:
             return @"Soccer";
+        case HKWorkoutActivityTypeSocialDance:
+            return @"SocialDance";
         case HKWorkoutActivityTypeSoftball:
             return @"Softball";
         case HKWorkoutActivityTypeSquash:
